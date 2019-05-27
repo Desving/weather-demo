@@ -5,6 +5,9 @@
 </template>
 
 <script>
+    import BootstrapVue from "bootstrap-vue";
+    import "bootstrap/dist/css/bootstrap.min.css";
+    import "bootstrap-vue/dist/bootstrap-vue.css";
     import weaterList from '~/components/weatherList.vue'
 
     export default {

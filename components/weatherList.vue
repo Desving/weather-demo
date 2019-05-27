@@ -1,14 +1,16 @@
 <template>
-    <div>
+    <div class="container">
+        <div class="btn btn-secondary">
+            Hello Bootstrap!
+        </div>
         <div v-bind:key="weather.id" v-for="weather in arWearherCity">
-            <div>{{weather}}</div>
+            <weater-card :weatherCity="weather" :id="idCard"/>
         </div>
     </div>
 </template>
 
 <script>
-    import { mapMutations } from 'vuex'
-
+    import weaterCard from '~/components/weatherCard.vue'
 
     export default {
         mounted() {
@@ -20,22 +22,29 @@
 
             console.log('crd');
         },
+        components: {
+            weaterCard
+        },
         computed: {
             arWearherCity () {
                 return this.$store.state.storeWaether.arCityWeater
+            },
+            idCard () {
+                return this.$store.state.storeWaether.id
             }
         },
         methods: {
             successData (pos) {
-                var crd = pos.coords;
+                let crd = pos.coords;
+                this.incrementId();
                 this.$store.dispatch('storeWaether/addCityOnCoord', crd);
+            },
+            incrementId() {
+                this.$store.dispatch('storeWaether/incrementId');
             },
             errorData: function (err) {
                 console.warn(`ERROR(${err.code}): ${err.message}`);
             },
-            ...mapMutations({
-                toggle: 'storeWaether/toggle'
-            })
         }
     }
 </script>

@@ -1,17 +1,20 @@
 import axios from 'axios';
 
 export const state = () => ({
-    arCityWeater: []
+    arCityWeater: [],
+    id: 0
 });
 
 export const mutations = {
     ADD_CITY (state, payload) {
-        console.log('payload');
-        console.log(payload);
-        state.arCityWeater.push(payload);
+        state.arCityWeater.push(
+            {
+                info: payload,
+                id: state.id
+            });
     },
-    toggle (state, todo) {
-        todo.done = !todo.done
+    INCREMENT_ID (state, id) {
+        state.id++;
     }
 };
 
@@ -25,5 +28,8 @@ export const actions = {
         axios
             .get(request)
             .then(response => (this.commit('storeWaether/ADD_CITY', response)));
+    },
+    incrementId() {
+        this.commit('storeWaether/INCREMENT_ID')
     }
 };
