@@ -1,16 +1,20 @@
 <template>
-    <div class="container">
-        <div class="btn btn-secondary">
-            Hello Bootstrap!
+    <div class="weather">
+        <addWeather/>
+        <div v-if="isError">
+            <div class="errors" v-bind:key="error.id" v-for="error in getErrors">
+                {{error.message}}
+            </div>
         </div>
-        <div v-bind:key="weather.id" v-for="weather in arWearherCity">
-            <weater-card :weatherCity="weather" :id="idCard"/>
+        <div class="list" v-bind:key="weather.id" v-for="weather in arWearherCity">
+            <weather-card :weatherCity="weather" :id="idCard"/>
         </div>
     </div>
 </template>
 
 <script>
-    import weaterCard from '~/components/weatherCard.vue'
+    import weatherCard from '~/components/weatherCard.vue'
+    import addWeather from '~/components/addWeathetOnCoords.vue'
 
     export default {
         mounted() {
@@ -23,7 +27,8 @@
             console.log('crd');
         },
         components: {
-            weaterCard
+            weatherCard,
+            addWeather
         },
         computed: {
             arWearherCity () {
@@ -31,16 +36,20 @@
             },
             idCard () {
                 return this.$store.state.storeWaether.id
+            },
+            getErrors() {
+                console.log(this.$store.state.storeWaether.errors);
+                return this.$store.state.storeWaether.errors
+            },
+            isError() {
+                return this.getErrors.length > 0
             }
         },
         methods: {
             successData (pos) {
                 let crd = pos.coords;
-                this.incrementId();
+                console.log(crd);
                 this.$store.dispatch('storeWaether/addCityOnCoord', crd);
-            },
-            incrementId() {
-                this.$store.dispatch('storeWaether/incrementId');
             },
             errorData: function (err) {
                 console.warn(`ERROR(${err.code}): ${err.message}`);
@@ -52,5 +61,23 @@
 <style>
     .done {
         text-decoration: line-through;
+    }
+    .weather {
+        width: 80%;
+        margin: auto;
+    }
+    .list {
+        display: flex;
+        /*justify-content: center;*/
+        padding: 10px 0;
+    }
+    .errors {
+        background: #ff494921;
+        width: 50%;
+        border: 1px solid red;
+        padding: 5px 10px;
+        margin: 10px 0;
+        border-radius: 10px;
+        color: red;
     }
 </style>

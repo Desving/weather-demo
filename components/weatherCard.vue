@@ -9,7 +9,7 @@
                 </div>
             </div>
             <div class="col-4 col-sm-4">
-                <div class="btn btn-close">
+                <div v-on:click="deletePoint" class="btn btn-close">
                     <img src="../static/delete.svg" alt="" class="icon">
                 </div>
             </div>
@@ -22,7 +22,7 @@
                         {{(weatherCity.info.data.main.temp - 273.15).toFixed(1)}} C&#176;
                     </div>
                     <div class="col-4">
-                        <img src="../static/gauge.svg" alt="" class="icon">
+                        <!--<img src="../static/gauge.svg" alt="" class="icon">-->
                         {{weatherCity.info.data.main.pressure}}
                     </div>
                     <div class="col-4">
@@ -74,6 +74,11 @@
             time: () => {
                 //return this.weatherCity
             }
+        },
+        methods: {
+            deletePoint() {
+                this.$store.dispatch('storeWaether/deleteCityWeather', this.weatherCity.id);
+            }
         }
     }
 </script>
@@ -81,6 +86,7 @@
 <style>
     .card {
         padding: 20px;
+        margin-bottom: 10px;
     }
 
     .p10{
